@@ -36,11 +36,13 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const playAudio = () => {
     initializeAudio();
     if (!audioRef.current) return;
-
+  
     audioRef.current.muted = false;
     void audioRef.current.play().then(() => {
       setIsPlaying(true);
-    }).catch(() => {
+    }).catch((error) => {
+      console.error('Audio playback failed:', error); // ← ADD THIS LINE
+      console.error('Audio src:', audioRef.current?.src); // ← ADD THIS LINE
       setIsPlaying(false);
     });
   };
