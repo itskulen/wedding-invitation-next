@@ -4,12 +4,16 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Envelope from '@/components/Envelope';
 import Invitation from '@/components/Invitation';
+import { useAudio } from '@/contexts/AudioContext';
 
 export default function Home() {
   const [isInvitationOpen, setIsInvitationOpen] = useState(false);
+  const { playAudio } = useAudio();
 
   const handleOpenInvitation = () => {
     setIsInvitationOpen(true);
+    // User opened the envelope (gesture) — start audible music; matches "ambience on" UI
+    playAudio();
   };
 
   return (

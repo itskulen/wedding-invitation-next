@@ -25,41 +25,30 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    // Attempt to autoplay muted on page load
-    // User can click toggle to unmute and hear the music
-    const timer = setTimeout(() => {
-      initializeAudio();
-      if (audioRef.current) {
-        audioRef.current.muted = true; // Start muted (browsers allow this)
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch(() => {
-          console.log('Muted autoplay blocked by browser');
-        });
-      }
-    }, 500); // Small delay to ensure page is ready
-
     return () => {
-      clearTimeout(timer);
-      audioRef.current?.pause();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
     };
   }, []);
 
   const playAudio = () => {
-    initializeAudio(); // Create audio if not already created
-    if (audioRef.current) {
-      audioRef.current.muted = false; // Unmute when user clicks play
-      audioRef.current.play().catch(() => {
-        console.log('Audio play failed');
-      });
+    initializeAudio();
+    if (!audioRef.current) return;
+
+    audioRef.current.muted = false;
+    void audioRef.current.play().then(() => {
       setIsPlaying(true);
-    }
+    }).catch(() => {
+      setIsPlaying(false);
+    });
   };
 
   const pauseAudio = () => {
     if (audioRef.current) {
-      audioRef.current.muted = true; // Mute when paused
       audioRef.current.pause();
+      audioRef.current.muted = true;
       setIsPlaying(false);
     }
   };
