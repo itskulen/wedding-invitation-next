@@ -15,13 +15,18 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Lazy-initialize audio on first user interaction (fixes mobile autoplay)
   const initializeAudio = () => {
-    if (audioRef.current) return; // Already initialized
+    if (audioRef.current) {
+      console.log('[Audio] Already initialized');
+      return;
+    }
+    
+    console.log('[Audio] Initializing new audio element...');
     const audio = new Audio('/bof.mp3');
     audio.loop = true;
-    audio.volume = 0.3; // 30% volume (adjust as needed)
+    audio.volume = 0.3;
     audioRef.current = audio;
+    console.log('[Audio] Audio element created, src:', audio.src);
   };
 
   useEffect(() => {
@@ -34,32 +39,47 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const playAudio = () => {
+    console.log('[Audio] playAudio called');
     initializeAudio();
-    if (!audioRef.current) return;
-  
+    if (!audioRef.current) {
+      console.error('[Audio] audioRef.current is null!');
+      return;
+    }
+
+    console.log('[Audio] Attempting to play...', {
+      src: audioRef.current.src,
+      paused: audioRef.current.paused,
+      muted: audioRef.current.muted,
+    });
+
     audioRef.current.muted = false;
     void audioRef.current.play().then(() => {
+      console.log('[Audio] ✅ Playback started successfully');
       setIsPlaying(true);
     }).catch((error) => {
-      console.error('Audio playback failed:', error); // ← ADD THIS LINE
-      console.error('Audio src:', audioRef.current?.src); // ← ADD THIS LINE
+      console.error('[Audio] ❌ Playback failed:', error);
+      console.error('[Audio] Error name:', error.name);
+      console.error('[Audio] Error message:', error.message);
       setIsPlaying(false);
     });
   };
 
   const pauseAudio = () => {
+    console.log('[Audio] pauseAudio called');
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.muted = true;
       setIsPlaying(false);
+      console.log('[Audio] ✅ Audio paused');
     }
   };
 
   const toggleAudio = () => {
+    console.log('[Audio] toggleAudio called, isPlaying:', isPlaying);
     if (isPlaying) {
       pauseAudio();
     } else {
-      playAudio(); // This will initialize audio on first toggle
+      playAudio();
     }
   };
 
