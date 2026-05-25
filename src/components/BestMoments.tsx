@@ -31,6 +31,7 @@ const moments: Moment[] = [
   { src: '/PH87.jpg',  size: 'wide', caption: 'Lovely chapter' },
 ];
 
+
 // ── Lightbox ───────────────────────────────────────────────────────────────
 function Lightbox({
   index,
