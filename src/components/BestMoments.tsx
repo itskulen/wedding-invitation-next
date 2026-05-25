@@ -14,21 +14,21 @@ interface Moment {
 }
 
 const moments: Moment[] = [
-  { src: '/PH1.JPG',    size: 'wide', caption: 'Beautiful memory' },
+  { src: '/PH1.jpg',    size: 'wide', caption: 'Beautiful memory' },
   { src: '/PH7.jpg',    size: 'wide', caption: 'Our day together' },
   { src: '/PH19.jpg',     size: 'tall', caption: 'Latifah' },
   { src: '/PH24.jpg',     size: 'tall', caption: 'Valen' },
-  { src: '/PH5.JPG',     size: 'full', caption: 'Captured moment' },
-  { src: '/PH8.JPG',                 caption: 'Happiness' },
+  { src: '/PH5.jpg',     size: 'full', caption: 'Captured moment' },
+  { src: '/PH8.jpg',                 caption: 'Happiness' },
   { src: '/PH9.jpg',    size: 'wide', caption: 'Warm smile' },
   { src: '/PH11.jpg',   size: 'wide', caption: 'Togetherness' },
   { src: '/PH20.jpg',    size: 'tall', caption: 'Beautiful time' },
-  { src: '/PH18.JPG',    size: 'tall', caption: 'Sweet memory' },
-  { src: '/PH14.JPG',                  caption: 'Our journey' },
-  { src: '/PH23.JPG',                 caption: 'Joyful day' },
-  { src: '/PH99.JPG',   size: 'tall', caption: 'Best moments' },
-  { src: '/PH88.JPG',  size: 'tall',  caption: 'Memorable scene' },
-  { src: '/PH87.JPG',  size: 'wide', caption: 'Lovely chapter' },
+  { src: '/PH18.jpg',    size: 'tall', caption: 'Sweet memory' },
+  { src: '/PH14.jpg',                  caption: 'Our journey' },
+  { src: '/PH23.jpg',                 caption: 'Joyful day' },
+  { src: '/PH99.jpg',   size: 'tall', caption: 'Best moments' },
+  { src: '/PH88.jpg',  size: 'tall',  caption: 'Memorable scene' },
+  { src: '/PH87.jpg',  size: 'wide', caption: 'Lovely chapter' },
 ];
 
 
