@@ -15,7 +15,7 @@ interface Moment {
 
 const moments: Moment[] = [
   { src: '/PH1.JPG',    size: 'wide', caption: 'Beautiful memory' },
-  { src: '/PH7.JPG',    size: 'wide', caption: 'Our day together' },
+  { src: '/PH7.jpg',    size: 'wide', caption: 'Our day together' },
   { src: '/PH19.jpg',     size: 'tall', caption: 'Latifah' },
   { src: '/PH24.jpg',     size: 'tall', caption: 'Valen' },
   { src: '/PH5.JPG',     size: 'full', caption: 'Captured moment' },
