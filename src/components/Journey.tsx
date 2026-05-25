@@ -9,31 +9,31 @@ import TypingText from './TypingText';
 
 const journeyImages = [
   {
-    src: '/A2.JPG',
+    src: '/PH1.jpg',
     desc: 'Chapter I',
     subtitle: 'The Beginning',
     caption: 'Tidak ada yang kebetulan, Yang Maha Kuasa telah lebih dulu merangkai takdir terbaik untuk kami.',
   },
   {
-    src: '/A1.JPG',
+    src: '/PH11.jpg',
     desc: 'Chapter II',
     subtitle: 'Two Paths Crossed',
     caption: 'Kami dua orang asing dari arah yang berbeda, dipertemukan di sebuah kota. Membawa masa lalu yang tak sama, namun rasa yang serupa. Kami tidak saling mencari, namun takdir diam diam menemukan jalannya sendiri.',
   },
   {
-    src: '/P13.JPG',
+    src: '/PH2.jpg',
     desc: 'Chapter III',
     subtitle: 'Finding Home',
     caption: 'Dari obrolan sederhana hingga luka yang perlahan terucap, tanpa disadari kami menjadi tempat untuk pulang. Dua hati akhirnya saling menguatkan. Kami berjalan tanpa janji berlebihan, hanya saling menemani dan menyembuhkan. Bukan lagi tentang ambisi, melainkan seperti doa yang tenang dan penuh harap.',
   },
   {
-    src: '/p7.JPEG',
+    src: '/PH23.jpg',
     desc: 'Chapter IV',
     subtitle: 'Growing Together',
     caption: 'Kini kami mengerti, cinta hadir perlahan, merangkai kembali yang pernah patah. Pertemuan ini bukan tentang siapa yang datang lebih dulu, melainkan tentang siapa yang tetap menggenggam erat hingga jiwa merasa utuh.',
   },
   {
-    src: '/p11.JPEG',
+    src: '/PH87.jpg',
     desc: 'Chapter V',
     subtitle: 'Sacred Promise',
     caption: 'Dalam segala rapuh yang tersisa dan kesederhanaan yang penuh makna, kami memilih saling menggenggam, mengikat janji suci karena ingin saling menjaga, dalam doa yang tulus dan harapan akan ridha Nya.',
