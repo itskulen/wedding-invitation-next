@@ -52,16 +52,42 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       muted: audioRef.current.muted,
     });
 
+    // Strategy: Try normal playback, fallback to muted→unmuted for mobile
     audioRef.current.muted = false;
-    void audioRef.current.play().then(() => {
-      console.log('[Audio] ✅ Playback started successfully');
-      setIsPlaying(true);
-    }).catch((error) => {
-      console.error('[Audio] ❌ Playback failed:', error);
-      console.error('[Audio] Error name:', error.name);
-      console.error('[Audio] Error message:', error.message);
-      setIsPlaying(false);
-    });
+    const playPromise = audioRef.current.play();
+    
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          console.log('[Audio] ✅ Playback started successfully');
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.log('[Audio] ⚠️ Normal playback blocked (mobile restriction), trying muted workaround...', error.name);
+          
+          // MOBILE FALLBACK: Play muted first, then unmute
+          if (!audioRef.current) return;
+          
+          audioRef.current.muted = true;
+          audioRef.current.play()
+            .then(() => {
+              console.log('[Audio] ✅ Playing muted on mobile, unmuting in 150ms...');
+              // Unmute after slight delay (helps iOS Safari)
+              setTimeout(() => {
+                if (audioRef.current) {
+                  audioRef.current.muted = false;
+                  setIsPlaying(true);
+                  console.log('[Audio] ✅ Audio unmuted - now playing on mobile');
+                }
+              }, 150);
+            })
+            .catch((fallbackError) => {
+              console.error('[Audio] ❌ Both playback strategies failed:', fallbackError);
+              console.error('[Audio] User must manually enable audio');
+              setIsPlaying(false);
+            });
+        });
+    }
   };
 
   const pauseAudio = () => {
