@@ -1,4 +1,7 @@
+'use client';
+
 import { useState, useEffect, useRef, type PointerEvent } from "react";
+import { motion } from "framer-motion";
 
 declare global {
   interface Window {
@@ -271,6 +274,7 @@ export default function ModernEnvelope({ onOpen }: { onOpen?: () => void }) {
         @keyframes pulse{0%,100%{opacity:.65;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
         @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
         @keyframes glow{0%,100%{box-shadow:0 6px 20px rgba(212,52,52,0.35),inset 0 2px 4px rgba(255,140,140,0.2)}50%{box-shadow:0 8px 28px rgba(212,52,52,0.5),inset 0 2px 4px rgba(255,140,140,0.3)}}
+        @keyframes coupleGlow{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 2px 18px rgba(196,168,98,0.35)}}
       `}</style>
 
       {/* Burst birds */}
@@ -321,24 +325,52 @@ export default function ModernEnvelope({ onOpen }: { onOpen?: () => void }) {
           borderRadius:20,background:"linear-gradient(172deg,#fffffc,#faf5ee)",
           boxShadow:"0 10px 32px rgba(50,38,28,0.12), 0 3px 10px rgba(50,38,28,0.08)",
           zIndex:5,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-end",
-          paddingBottom:22,overflow:"hidden",
+          paddingBottom:10,overflow:"hidden",
           transform:isDragging?`translateY(${Math.min(dragY*.68,58)}px)`:"translateY(0)",
           transition:isDragging?"none":"transform .48s cubic-bezier(.25,1.2,.5,1)",
         }}>
           {/* Subtle top accent */}
           <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:"linear-gradient(to right,#c9a462,#e8c97a,#d4aa55,#c9a462)"}}/>
 
-          <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",gap:5,padding:"0 20px",width:"100%"}}>
-            {guestName && (
-              <div style={{width:"100%",maxWidth:240,padding:"11px 15px",marginBottom:10,background:"linear-gradient(162deg,#fbf8f2,#f4ede2)",borderRadius:11,border:"1px solid rgba(201,164,98,0.22)"}}>
-                <p style={{fontSize:".46rem",letterSpacing:".22em",textTransform:"uppercase",color:"#aaa9a3",fontFamily:"system-ui,sans-serif",fontWeight:600,margin:"0 0 6px 0"}}>You are invited</p>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",gap:3,padding:"0 20px",width:"100%"}}>            {guestName && (
+            <div style={{width:"100%",maxWidth:240,padding:"8px 15px",marginBottom:6,background:"linear-gradient(162deg,#fbf8f2,#f4ede2)",borderRadius:11,border:"1px solid rgba(201,164,98,0.22)"}}>
+                  <p style={{fontSize:".46rem",letterSpacing:".22em",textTransform:"uppercase",color:"#aaa9a3",fontFamily:"system-ui,sans-serif",fontWeight:600,margin:"0 0 4px 0"}}>You are invited</p>
                 <p style={{fontFamily:"Georgia,serif",fontSize:"clamp(1rem,3.5vw,1.35rem)",fontWeight:700,color:"#2a2420",lineHeight:1.2,margin:0}}>{guestName}</p>
-                <div style={{width:28,height:1,background:"linear-gradient(to right,transparent,#c9a462,transparent)",margin:"7px auto 0"}}/>
+                <div style={{width:28,height:1,background:"linear-gradient(to right,transparent,#c9a462,transparent)",margin:"5px auto 0"}}/>
               </div>
             )}
             <div style={{width:42,height:1,background:"linear-gradient(to right,transparent,#c9a462,transparent)",marginBottom:3}}/>
             <p style={{fontSize:".48rem",letterSpacing:".2em",textTransform:"uppercase",color:"#9a8e80",fontFamily:"system-ui,sans-serif",fontWeight:500,margin:0}}>The Wedding Of</p>
-            <div style={{fontFamily:"Georgia,serif",fontSize:"clamp(1.35rem,4.2vw,1.85rem)",color:"#2a2420",lineHeight:1.1,fontStyle:"italic",margin:"3px 0"}}>Latifah &amp; Valen</div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 0.2, ease: "easeOut" }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                justifyContent: "center",
+                flexWrap: "wrap",
+                gap: "0.2em 0.28em",
+                margin: "8px 0 4px",
+                padding: "4px 8px",
+                cursor: "default",
+                animation: "coupleGlow 4s ease-in-out infinite",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "'Great Vibes', cursive",
+                  fontSize: "clamp(1.85rem, 5.2vw, 2.5rem)",
+                  color: "#4A3E35",
+                  lineHeight: 1.1,
+                  fontWeight: 400,
+                }}
+              >
+                Latifah &amp; Valen
+              </span>
+            </motion.div>
             <p style={{fontSize:".48rem",letterSpacing:".18em",textTransform:"uppercase",color:"#9a8e80",fontFamily:"system-ui,sans-serif",fontWeight:500,margin:0}}>Saturday, 4th July 2026</p>
             <div style={{width:42,height:1,background:"linear-gradient(to right,transparent,#c9a462,transparent)",marginTop:3}}/>
           </div>

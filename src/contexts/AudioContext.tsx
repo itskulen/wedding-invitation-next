@@ -15,60 +15,88 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Lazy-initialize audio on first user interaction (fixes mobile autoplay)
   const initializeAudio = () => {
-    if (audioRef.current) return; // Already initialized
+    if (audioRef.current) return;
+    
+    console.log('[Audio] Initializing audio element...');
     const audio = new Audio('/bof.mp3');
     audio.loop = true;
-    audio.volume = 0.3; // 30% volume (adjust as needed)
+    audio.volume = 0.3;
+    audio.preload = 'auto';
     audioRef.current = audio;
+    console.log('[Audio] ✅ Audio created');
   };
 
   useEffect(() => {
-    // Attempt to autoplay muted on page load
-    // User can click toggle to unmute and hear the music
-    const timer = setTimeout(() => {
-      initializeAudio();
-      if (audioRef.current) {
-        audioRef.current.muted = true; // Start muted (browsers allow this)
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch(() => {
-          console.log('Muted autoplay blocked by browser');
-        });
-      }
-    }, 500); // Small delay to ensure page is ready
-
     return () => {
-      clearTimeout(timer);
-      audioRef.current?.pause();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
     };
   }, []);
 
   const playAudio = () => {
-    initializeAudio(); // Create audio if not already created
-    if (audioRef.current) {
-      audioRef.current.muted = false; // Unmute when user clicks play
-      audioRef.current.play().catch(() => {
-        console.log('Audio play failed');
-      });
-      setIsPlaying(true);
+    console.log('[Audio] 🎵 playAudio called');
+    initializeAudio();
+    
+    if (!audioRef.current) {
+      console.error('[Audio] ❌ No audio element!');
+      return;
     }
+
+    // AGGRESSIVE MOBILE STRATEGY: Always try muted first, then force unmute
+    console.log('[Audio] Starting mobile-safe playback (muted→unmuted)...');
+    
+    audioRef.current.muted = true;
+    audioRef.current.play()
+      .then(() => {
+        console.log('[Audio] ✅ Audio playing (muted)');
+        
+        // Force unmute after short delay
+        setTimeout(() => {
+          if (audioRef.current) {
+            console.log('[Audio] 🔊 Force unmuting NOW...');
+            audioRef.current.muted = false;
+            
+            // Double-check unmute worked
+            setTimeout(() => {
+              if (audioRef.current) {
+                console.log('[Audio] Muted status:', audioRef.current.muted);
+                console.log('[Audio] Playing status:', !audioRef.current.paused);
+                console.log('[Audio] Volume:', audioRef.current.volume);
+                
+                if (!audioRef.current.muted && !audioRef.current.paused) {
+                  setIsPlaying(true);
+                  console.log('[Audio] ✅✅✅ AUDIO SHOULD BE AUDIBLE NOW');
+                } else {
+                  console.error('[Audio] ❌ Audio still muted or paused!');
+                }
+              }
+            }, 100);
+          }
+        }, 200);
+      })
+      .catch((error) => {
+        console.error('[Audio] ❌ Muted playback failed:', error.name, error.message);
+        setIsPlaying(false);
+      });
   };
 
   const pauseAudio = () => {
+    console.log('[Audio] pauseAudio called');
     if (audioRef.current) {
-      audioRef.current.muted = true; // Mute when paused
       audioRef.current.pause();
       setIsPlaying(false);
     }
   };
 
   const toggleAudio = () => {
+    console.log('[Audio] toggleAudio, current isPlaying:', isPlaying);
     if (isPlaying) {
       pauseAudio();
     } else {
-      playAudio(); // This will initialize audio on first toggle
+      playAudio();
     }
   };
 
