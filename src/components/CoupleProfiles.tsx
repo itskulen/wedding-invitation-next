@@ -17,13 +17,13 @@ const people: Person[] = [
     name: 'Latifah Qalbi Minza',
     parent: 'Putri dari Bapak Zainer & Ibu Minta Wahyuni (Almh)',
     desc: 'A gentle soul with a warm smile, she fills every room with kindness and grace.',
-    image: '/TLV.jpg',
+    image: '/TLV.JPG',
   },
   {
     name: 'Valen Harkin Aryo Dewanto',
     parent: 'Putra dari Bapak Suharja & Ibu Mia Suli Yunaini',
     desc: 'A calm and thoughtful partner who brings joy and laughter in every moment.',
-    image: '/LNV.jpg',
+    image: '/LNV.JPG',
   },
 ];
 
