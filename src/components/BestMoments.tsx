@@ -9,29 +9,26 @@ import TypingText from './TypingText';
 
 interface Moment {
   src: string;
-  size?: 'wide' | 'tall';
+  size?: 'wide' | 'tall' | 'full' | 'standard';
   caption?: string;
 }
 
 const moments: Moment[] = [
-  { src: '/A1.JPG',    size: 'wide', caption: 'Beautiful memory' },
-  { src: '/A2.JPG',    size: 'wide', caption: 'Our day together' },
-  { src: '/L.jpg',     size: 'tall', caption: 'Latifah' },
-  { src: '/V.jpg',     size: 'tall', caption: 'Valen' },
-  { src: '/P1.JPG',                  caption: 'Captured moment' },
-  { src: '/P6.jpeg',                 caption: 'Happiness' },
-  { src: '/P12.jpg',   size: 'wide', caption: 'Special chapter' },
-  { src: '/P13.jpg',                 caption: 'Warm smile' },
-  { src: '/P14.jpg',   size: 'wide', caption: 'Togetherness' },
-  { src: '/P15.jpg',                 caption: 'Beautiful time' },
-  { src: '/p3.JPG',                  caption: 'Sweet memory' },
-  { src: '/p4.JPG',                  caption: 'Our journey' },
-  { src: '/p5.jpeg',                 caption: 'Joyful day' },
-  { src: '/p7.jpeg',                 caption: 'Best moments' },
-  { src: '/p8.jpeg',                 caption: 'Memorable scene' },
-  { src: '/p9.jpeg',                 caption: 'Forever us' },
-  { src: '/p10.jpeg',  size: 'wide', caption: 'Lovely chapter' },
-  { src: '/p11.jpeg',                caption: 'Cherished memory' },
+  { src: '/PH1.JPG',    size: 'wide', caption: 'Beautiful memory' },
+  { src: '/PH7.JPG',    size: 'wide', caption: 'Our day together' },
+  { src: '/PH19.jpg',     size: 'tall', caption: 'Latifah' },
+  { src: '/PH24.jpg',     size: 'tall', caption: 'Valen' },
+  { src: '/PH5.JPG',     size: 'full', caption: 'Captured moment' },
+  { src: '/PH8.JPG',                 caption: 'Happiness' },
+  { src: '/PH9.jpg',    size: 'wide', caption: 'Warm smile' },
+  { src: '/PH11.jpg',   size: 'wide', caption: 'Togetherness' },
+  { src: '/PH20.jpg',    size: 'tall', caption: 'Beautiful time' },
+  { src: '/PH18.JPG',    size: 'tall', caption: 'Sweet memory' },
+  { src: '/PH14.JPG',                  caption: 'Our journey' },
+  { src: '/PH23.JPG',                 caption: 'Joyful day' },
+  { src: '/PH99.JPG',   size: 'tall', caption: 'Best moments' },
+  { src: '/PH88.JPG',  size: 'tall',  caption: 'Memorable scene' },
+  { src: '/PH87.JPG',  size: 'wide', caption: 'Lovely chapter' },
 ];
 
 // ── Lightbox ───────────────────────────────────────────────────────────────
