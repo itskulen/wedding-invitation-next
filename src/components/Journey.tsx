@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import TypingText from './TypingText';
 
 const journeyImages = [
@@ -245,6 +245,15 @@ export default function Journey() {
       {/* ── Redesigned Modal ─────────────────────────────────────────── */}
       <Dialog open={isPopupOpen} onOpenChange={setIsPopupOpen}>
         <DialogContent className="max-w-[560px] border-none bg-transparent p-0 shadow-none data-open:zoom-in-95 data-open:fade-in-0 data-closed:zoom-out-95 data-closed:fade-out-0">
+          {/* Close button */}
+          <button
+            onClick={() => setIsPopupOpen(false)}
+            className="absolute top-3 right-3 z-[60] flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#4A3E35] transition-all duration-300 hover:bg-white hover:scale-110 shadow-[0_4px_12px_rgba(60,35,20,0.15)] hover:shadow-[0_6px_18px_rgba(60,35,20,0.2)]"
+            aria-label="Close chapter"
+          >
+            <X size={20} strokeWidth={2.5} />
+          </button>
+
           <motion.div
             initial={{ opacity: 0, y: 14, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
