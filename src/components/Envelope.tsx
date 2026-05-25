@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, type PointerEvent } from "react";
-import { useAudio } from "@/contexts/AudioContext";
 
 declare global {
   interface Window {
@@ -180,8 +179,6 @@ export default function ModernEnvelope({ onOpen }: { onOpen?: () => void }) {
   const startY = useRef(0);
   const burstRefs = useRef<Array<HTMLDivElement | null>>([]);
   const navigationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const audioTriggeredRef = useRef(false); // Track if audio already triggered
-  const { playAudio } = useAudio();
 
   useEffect(() => {
     const onM = (e: MouseEvent) => {window._mX=e.clientX;window._mY=e.clientY;};
@@ -253,13 +250,6 @@ export default function ModernEnvelope({ onOpen }: { onOpen?: () => void }) {
     if(!isDrag.current) return;
     isDrag.current=false;
     if(dragY>85){
-      // Trigger audio IMMEDIATELY on user gesture (mobile-safe)
-      if (!audioTriggeredRef.current) {
-        console.log('[Envelope] Opening envelope - triggering audio');
-        playAudio();
-        audioTriggeredRef.current = true;
-      }
-      
       setPhase("opened");
       setBurstVisible(true);
       setTimeout(()=>setPhase("ambient"),400);
@@ -297,129 +287,108 @@ export default function ModernEnvelope({ onOpen }: { onOpen?: () => void }) {
       {/* Ambient birds */}
       {ambientCfg.map((cfg,i) => <AmbientBird key={i} cfg={cfg} show={showAmbient}/>)}
 
-      {/* Guest name + Envelope wrapper */}
-      <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:guestName?32:0}}>
-        {/* Guest name — positioned ABOVE envelope with spacing */}
-        {guestName && (
-          <div style={{
-            opacity:isOpened?0:1,
-            transform:isOpened?"translateY(-20px) scale(0.95)":"translateY(0) scale(1)",
-            transition:isOpened?"opacity .5s ease, transform .5s ease .15s":"opacity .4s ease",
-            textAlign:"center",
-            paddingBottom:4,
-          }}>
-            <p style={{fontSize:".5rem",letterSpacing:".18em",textTransform:"uppercase",color:"#b0a499",fontFamily:"system-ui,sans-serif",fontWeight:600,margin:"0 0 8px 0"}}>You are cordially invited</p>
-            <p style={{fontFamily:"Georgia,serif",fontSize:"clamp(1.2rem,4vw,1.65rem)",fontWeight:700,color:"#2a2420",lineHeight:1.25,margin:0,maxWidth:"min(360px,90vw)",wordBreak:"break-word"}}>{guestName}</p>
+      {/* Envelope */}
+      <div
+        style={{
+          position:"relative",width:"min(380px,90vw)",aspectRatio:"3/3.8",
+          userSelect:"none",touchAction:"none",
+          cursor:isDragging?"grabbing":"grab",
+          transform:isOpened?"translateY(75px)":"translateY(0)",
+          opacity:isOpened?0:1,
+          transition:isOpened?"transform .75s ease .4s, opacity .75s ease .4s":isDragging?"none":"transform .55s cubic-bezier(.25,1.2,.5,1)",
+        }}
+        onPointerDown={onPDown}
+        onPointerMove={onPMove}
+        onPointerUp={onPUp}
+      >
+        {/* Shadow */}
+        <div style={{position:"absolute",bottom:-12,left:"50%",transform:"translateX(-50%)",width:"68%",height:32,background:"rgba(40,30,22,0.18)",filter:"blur(22px)",borderRadius:"50%",opacity:.65-prog*.35}}/>
+
+        {/* Envelope body */}
+        <div style={{position:"absolute",inset:0,borderRadius:28,background:"linear-gradient(155deg,#f5ebe0 0%,#e8dac8 55%,#dccbb5 100%)",border:"1px solid rgba(180,150,115,0.28)",boxShadow:"0 18px 45px rgba(50,38,28,0.15), inset 0 1px 0 rgba(255,248,240,0.5)",overflow:"hidden"}}>
+          {/* Subtle paper texture */}
+          <div style={{position:"absolute",inset:0,backgroundImage:"repeating-linear-gradient(45deg,rgba(200,170,130,0.03) 0,rgba(200,170,130,0.03) 2px,transparent 2px,transparent 8px),repeating-linear-gradient(-45deg,rgba(200,170,130,0.025) 0,rgba(200,170,130,0.025) 2px,transparent 2px,transparent 8px)"}}/>
+        </div>
+
+        {/* Bottom fold triangles */}
+        <div style={{position:"absolute",bottom:0,left:0,width:"50%",height:"56%",background:"linear-gradient(138deg,#d4c0a8,#c1aa8e)",clipPath:"polygon(0 0,100% 0,0 100%)",borderRadius:"0 0 0 28px"}}/>
+        <div style={{position:"absolute",bottom:0,right:0,width:"50%",height:"56%",background:"linear-gradient(222deg,#d4c0a8,#c1aa8e)",clipPath:"polygon(0 0,100% 0,100% 100%)",borderRadius:"0 0 28px 0"}}/>
+        <div style={{position:"absolute",bottom:0,left:0,right:0,height:"56%",background:"linear-gradient(180deg,#e0d0ba,#cbb89c)",clipPath:"polygon(0 100%,50% 0,100% 100%)"}}/>
+
+        {/* Inner card */}
+        <div style={{
+          position:"absolute",left:"8.5%",right:"8.5%",top:"9%",height:"82%",
+          borderRadius:20,background:"linear-gradient(172deg,#fffffc,#faf5ee)",
+          boxShadow:"0 10px 32px rgba(50,38,28,0.12), 0 3px 10px rgba(50,38,28,0.08)",
+          zIndex:5,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-end",
+          paddingBottom:22,overflow:"hidden",
+          transform:isDragging?`translateY(${Math.min(dragY*.68,58)}px)`:"translateY(0)",
+          transition:isDragging?"none":"transform .48s cubic-bezier(.25,1.2,.5,1)",
+        }}>
+          {/* Subtle top accent */}
+          <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:"linear-gradient(to right,#c9a462,#e8c97a,#d4aa55,#c9a462)"}}/>
+
+          <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",gap:5,padding:"0 20px",width:"100%"}}>
+            {guestName && (
+              <div style={{width:"100%",maxWidth:240,padding:"11px 15px",marginBottom:10,background:"linear-gradient(162deg,#fbf8f2,#f4ede2)",borderRadius:11,border:"1px solid rgba(201,164,98,0.22)"}}>
+                <p style={{fontSize:".46rem",letterSpacing:".22em",textTransform:"uppercase",color:"#aaa9a3",fontFamily:"system-ui,sans-serif",fontWeight:600,margin:"0 0 6px 0"}}>You are invited</p>
+                <p style={{fontFamily:"Georgia,serif",fontSize:"clamp(1rem,3.5vw,1.35rem)",fontWeight:700,color:"#2a2420",lineHeight:1.2,margin:0}}>{guestName}</p>
+                <div style={{width:28,height:1,background:"linear-gradient(to right,transparent,#c9a462,transparent)",margin:"7px auto 0"}}/>
+              </div>
+            )}
+            <div style={{width:42,height:1,background:"linear-gradient(to right,transparent,#c9a462,transparent)",marginBottom:3}}/>
+            <p style={{fontSize:".48rem",letterSpacing:".2em",textTransform:"uppercase",color:"#9a8e80",fontFamily:"system-ui,sans-serif",fontWeight:500,margin:0}}>The Wedding Of</p>
+            <div style={{fontFamily:"Georgia,serif",fontSize:"clamp(1.35rem,4.2vw,1.85rem)",color:"#2a2420",lineHeight:1.1,fontStyle:"italic",margin:"3px 0"}}>Latifah &amp; Valen</div>
+            <p style={{fontSize:".48rem",letterSpacing:".18em",textTransform:"uppercase",color:"#9a8e80",fontFamily:"system-ui,sans-serif",fontWeight:500,margin:0}}>Saturday, 4th July 2026</p>
+            <div style={{width:42,height:1,background:"linear-gradient(to right,transparent,#c9a462,transparent)",marginTop:3}}/>
+          </div>
+        </div>
+
+        {/* Flap */}
+        <div style={{
+          position:"absolute",top:0,left:0,right:0,height:"52%",
+          borderRadius:"28px 28px 0 0",
+          clipPath:"polygon(50% 0%,0% 100%,100% 100%)",
+          background:"linear-gradient(165deg,#f0e2d0 0%,#dcc6a8 58%,#cdb18c 100%)",
+          border:"1px solid rgba(180,150,115,0.22)",
+          zIndex:6,
+          transformOrigin:"top center",
+          transform:`perspective(850px) rotateX(${-prog*48}deg)`,
+          transition:isDragging?"none":"transform .28s ease",
+        }}>
+          <div style={{position:"absolute",inset:0,background:"linear-gradient(175deg,rgba(240,230,210,0.4) 0%,transparent 55%)"}}/>
+        </div>
+
+        {/* Wax seal */}
+        <div style={{
+          position:"absolute",left:"50%",top:"calc(40% - 27px)",
+          transform:`translateX(-50%) scale(${isDragging?.86:1})`,
+          zIndex:8,width:54,height:54,borderRadius:"50%",
+          background:"radial-gradient(circle at 38% 34%,#e85555 0%,#d43434 48%,#a82020 100%)",
+          boxShadow:"0 6px 20px rgba(212,52,52,0.4), inset 0 2px 4px rgba(255,140,140,0.22), inset 0 -2px 4px rgba(0,0,0,0.25)",
+          display:"flex",alignItems:"center",justifyContent:"center",
+          transition:"transform .12s ease,opacity .12s ease",
+          opacity:isDragging?.68:1,
+          animation:!isDragging&&phase==="idle"?"glow 3.5s ease-in-out infinite":"none",
+        }}>
+          <div style={{position:"absolute",inset:5,borderRadius:"50%",border:"1px solid rgba(255,180,180,0.2)"}}/>
+          <span style={{fontFamily:"Georgia,serif",fontSize:".74rem",fontWeight:700,color:"rgba(255,245,240,0.9)",letterSpacing:".05em",textShadow:"0 1px 3px rgba(0,0,0,0.3)",userSelect:"none"}}>LV</span>
+        </div>
+
+        {/* Drag hint */}
+        {!isDragging && phase==="idle" && (
+          <div style={{position:"absolute",bottom:16,left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:6,zIndex:10,animation:"float 2.8s ease-in-out infinite"}}>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
+              <svg width={16} height={9} viewBox="0 0 16 9" style={{opacity:.5,animation:"pulse 1.8s ease-in-out infinite"}}>
+                <path d="M1 1L8 7.5L15 1" stroke="#8a7060" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <svg width={16} height={9} viewBox="0 0 16 9" style={{opacity:.35,animation:"pulse 1.8s ease-in-out infinite .2s"}}>
+                <path d="M1 1L8 7.5L15 1" stroke="#8a7060" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <p style={{fontSize:".52rem",letterSpacing:".2em",textTransform:"uppercase",color:"rgba(138,112,96,.65)",fontFamily:"system-ui,sans-serif",margin:0,fontWeight:500}}>Drag down to open</p>
           </div>
         )}
-
-        {/* Envelope */}
-        <div
-          style={{
-            position:"relative",width:"min(380px,90vw)",aspectRatio:"3/3.8",
-            userSelect:"none",touchAction:"none",
-            cursor:isDragging?"grabbing":"grab",
-            transform:isOpened?"translateY(75px)":"translateY(0)",
-            opacity:isOpened?0:1,
-            transition:isOpened?"transform .75s ease .4s, opacity .75s ease .4s":isDragging?"none":"transform .55s cubic-bezier(.25,1.2,.5,1)",
-          }}
-          onPointerDown={onPDown}
-          onPointerMove={onPMove}
-          onPointerUp={onPUp}
-        >
-          {/* Shadow */}
-          <div style={{position:"absolute",bottom:-12,left:"50%",transform:"translateX(-50%)",width:"68%",height:32,background:"rgba(40,30,22,0.18)",filter:"blur(22px)",borderRadius:"50%",opacity:.65-prog*.35}}/>
-
-          {/* Envelope body */}
-          <div style={{position:"absolute",inset:0,borderRadius:28,background:"linear-gradient(155deg,#f5ebe0 0%,#e8dac8 55%,#dccbb5 100%)",border:"1px solid rgba(180,150,115,0.28)",boxShadow:"0 18px 45px rgba(50,38,28,0.15), inset 0 1px 0 rgba(255,248,240,0.5)",overflow:"hidden"}}>
-            {/* Subtle paper texture */}
-            <div style={{position:"absolute",inset:0,backgroundImage:"repeating-linear-gradient(45deg,rgba(200,170,130,0.03) 0,rgba(200,170,130,0.03) 2px,transparent 2px,transparent 8px),repeating-linear-gradient(-45deg,rgba(200,170,130,0.025) 0,rgba(200,170,130,0.025) 2px,transparent 2px,transparent 8px)"}}/>
-          </div>
-
-          {/* Bottom fold triangles */}
-          <div style={{position:"absolute",bottom:0,left:0,width:"50%",height:"56%",background:"linear-gradient(138deg,#d4c0a8,#c1aa8e)",clipPath:"polygon(0 0,100% 0,0 100%)",borderRadius:"0 0 0 28px"}}/>
-          <div style={{position:"absolute",bottom:0,right:0,width:"50%",height:"56%",background:"linear-gradient(222deg,#d4c0a8,#c1aa8e)",clipPath:"polygon(0 0,100% 0,100% 100%)",borderRadius:"0 0 28px 0"}}/>
-          <div style={{position:"absolute",bottom:0,left:0,right:0,height:"56%",background:"linear-gradient(180deg,#e0d0ba,#cbb89c)",clipPath:"polygon(0 100%,50% 0,100% 100%)"}}/>
-
-          {/* Inner card */}
-          <div style={{
-            position:"absolute",left:"8.5%",right:"8.5%",top:"9%",height:"82%",
-            borderRadius:20,background:"linear-gradient(172deg,#fffffc,#faf5ee)",
-            boxShadow:"0 10px 32px rgba(50,38,28,0.12), 0 3px 10px rgba(50,38,28,0.08)",
-            zIndex:5,overflow:"hidden",
-            transform:isDragging?`translateY(${Math.min(dragY*.68,58)}px)`:"translateY(0)",
-            transition:isDragging?"none":"transform .48s cubic-bezier(.25,1.2,.5,1)",
-          }}>
-            {/* Subtle top accent */}
-            <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:"linear-gradient(to right,#c9a462,#e8c97a,#d4aa55,#c9a462)"}}/>
-
-            {/* Content — NO guest name here anymore */}
-            <div style={{
-              position:"absolute",
-              left:16,right:16,
-              top:"62%",
-              bottom:"21%",
-              display:"flex",
-              flexDirection:"column",
-              alignItems:"center",
-              justifyContent:"center",
-              textAlign:"center",
-              gap:10,
-            }}>
-              <div style={{width:42,height:1,background:"linear-gradient(to right,transparent,#c9a462,transparent)",marginBottom:3}}/>
-              <p style={{fontSize:".48rem",letterSpacing:".2em",textTransform:"uppercase",color:"#9a8e80",fontFamily:"system-ui,sans-serif",fontWeight:500,margin:0}}>The Wedding Of</p>
-              <div style={{fontFamily:"Georgia,serif",fontSize:"clamp(1.35rem,4.2vw,1.85rem)",color:"#2a2420",lineHeight:1.1,fontStyle:"italic",margin:"3px 0"}}>Latifah &amp; Valen</div>
-              <p style={{fontSize:".48rem",letterSpacing:".18em",textTransform:"uppercase",color:"#9a8e80",fontFamily:"system-ui,sans-serif",fontWeight:500,margin:0}}>Saturday, 4th July 2026</p>
-              <div style={{width:42,height:1,background:"linear-gradient(to right,transparent,#c9a462,transparent)",marginTop:3}}/>
-            </div>
-          </div>
-
-          {/* Flap */}
-          <div style={{
-            position:"absolute",top:0,left:0,right:0,height:"52%",
-            borderRadius:"28px 28px 0 0",
-            clipPath:"polygon(50% 0%,0% 100%,100% 100%)",
-            background:"linear-gradient(165deg,#f0e2d0 0%,#dcc6a8 58%,#cdb18c 100%)",
-            border:"1px solid rgba(180,150,115,0.22)",
-            zIndex:6,
-            transformOrigin:"top center",
-            transform:`perspective(850px) rotateX(${-prog*48}deg)`,
-            transition:isDragging?"none":"transform .28s ease",
-          }}>
-            <div style={{position:"absolute",inset:0,background:"linear-gradient(175deg,rgba(240,230,210,0.4) 0%,transparent 55%)"}}/>
-          </div>
-
-          {/* Wax seal */}
-          <div style={{
-            position:"absolute",left:"50%",top:"calc(40% - 27px)",
-            transform:`translateX(-50%) scale(${isDragging?.86:1})`,
-            zIndex:8,width:54,height:54,borderRadius:"50%",
-            background:"radial-gradient(circle at 38% 34%,#e85555 0%,#d43434 48%,#a82020 100%)",
-            boxShadow:"0 6px 20px rgba(212,52,52,0.4), inset 0 2px 4px rgba(255,140,140,0.22), inset 0 -2px 4px rgba(0,0,0,0.25)",
-            display:"flex",alignItems:"center",justifyContent:"center",
-            transition:"transform .12s ease,opacity .12s ease",
-            opacity:isDragging?.68:1,
-            animation:!isDragging&&phase==="idle"?"glow 3.5s ease-in-out infinite":"none",
-          }}>
-            <div style={{position:"absolute",inset:5,borderRadius:"50%",border:"1px solid rgba(255,180,180,0.2)"}}/>
-            <span style={{fontFamily:"Georgia,serif",fontSize:".74rem",fontWeight:700,color:"rgba(255,245,240,0.9)",letterSpacing:".05em",textShadow:"0 1px 3px rgba(0,0,0,0.3)",userSelect:"none"}}>LV</span>
-          </div>
-
-          {/* Drag hint */}
-          {!isDragging && phase==="idle" && (
-            <div style={{position:"absolute",bottom:16,left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:6,zIndex:10,animation:"float 2.8s ease-in-out infinite"}}>
-              <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
-                <svg width={16} height={9} viewBox="0 0 16 9" style={{opacity:.5,animation:"pulse 1.8s ease-in-out infinite"}}>
-                  <path d="M1 1L8 7.5L15 1" stroke="#8a7060" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <svg width={16} height={9} viewBox="0 0 16 9" style={{opacity:.35,animation:"pulse 1.8s ease-in-out infinite .2s"}}>
-                  <path d="M1 1L8 7.5L15 1" stroke="#8a7060" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <p style={{fontSize:".52rem",letterSpacing:".2em",textTransform:"uppercase",color:"rgba(138,112,96,.65)",fontFamily:"system-ui,sans-serif",margin:0,fontWeight:500}}>Drag down to open</p>
-            </div>
-          )}
-        </div>
       </div>
     </div>
   );
