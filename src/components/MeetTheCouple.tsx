@@ -39,7 +39,7 @@ const couples: CoupleProfile[] = [
     secondaryBody: 'This new chapter of my life feels really exciting and special, and I can’t wait to make beautiful memories, grow together, and explore the world together.',
     cardImage: '/TLV.jpg',
     profileSlides: ['/L.jpg', '/ltv2.JPG', '/ltv5.JPG', '/ltv4.JPG'],
-    activityPhotos: ['/AC1.JPG', '/AC2.jpeg', '/AC3.jpeg', '/AC4.JPG', '/AC5.JPG', '/AC6.JPG'],
+    activityPhotos: ['/AC1.JPG', '/TLV.JPG', '/L.JPG', '/AC4.JPG', '/AC5.JPG', '/AC6.JPG'],
   },
   {
     key: 'valen',
