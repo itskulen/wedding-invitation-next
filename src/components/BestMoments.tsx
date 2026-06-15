@@ -29,6 +29,9 @@ const moments: Moment[] = [
   { src: '/PH99.jpg',   size: 'tall', caption: 'Best moments' },
   { src: '/PH88.jpg',  size: 'tall',  caption: 'Memorable scene' },
   { src: '/PH87.jpg',  size: 'wide', caption: 'Lovely chapter' },
+  { src: '/LTVVLN2.jpeg',   size: 'tall', caption: 'Our akad moments' },
+  { src: '/LTVVLN3.jpeg',  size: 'tall',  caption: 'akad scene' },
+  { src: '/LTVVLN.jpg',  size: 'wide', caption: 'akad ceremony' },
 ];
 
 
