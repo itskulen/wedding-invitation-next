@@ -26,13 +26,13 @@ const events: Event[] = [
     label: 'Akad Nikah',
     sublabel: '',
     weekday: 'Saturday',
-    day: 4,
-    month: 'July',
+    day: 12,
+    month: 'June',
     year: '2026',
-    time: '14:00 WIB',
+    time: '08:00 WIB',
     dress: '',
-    location: "D'Girijati Hotel & Beach Club, Purwosari, Gunungkidul Regency, Special Region of Yogyakarta 55872",
-    locationShort: "D'Girijati Hotel & Beach Club",
+    location: "Masjid  Al Afiyah As'ad Humam / Quranic Ocean View ",
+    locationShort: "Masjid  Al Afiyah As'ad Humam",
   },
   {
     id: 'resepsi',
@@ -50,9 +50,9 @@ const events: Event[] = [
 ];
 
 const timeline = [
-  { time: '13:00', event: 'Seserahan', icon: '', desc: 'Exchange of gifts' },
-  { time: '14:00', event: 'Akad Nikah', icon: '', desc: 'Marriage contract' },
-  { time: '16:10', event: 'Opening Resepsi', icon: '', desc: 'Reception begins' },
+  { time: '12:35', event: 'Seserahan', icon: '', desc: 'Exchange of gifts' },
+  { time: '14:20', event: 'Tepuk Tepung Tawar', icon: '', desc: 'Marriage Blessing' },
+  { time: '15:50', event: 'Opening Resepsi dan Tarian Pembuka', icon: '', desc: 'Reception begins' },
   { time: '17:30', event: 'Closing', icon: '', desc: 'Thank you & farewell' },
 ];
 
