@@ -35,11 +35,11 @@ const couples: CoupleProfile[] = [
     instagramLabel: '@latifahqalbi',
     instagramUrl: 'https://www.instagram.com/latifahqalbi',
     introTitle: 'Introduction of Latifah',
-    introBody: 'Latifah adalah pribadi yang hangat, penyayang, dan selalu menghadirkan ketenangan untuk orang-orang di sekitarnya.',
-    secondaryBody: 'Ia menyukai momen kecil yang bermakna, musik lembut, dan kebersamaan bersama keluarga tercinta.',
+    introBody: 'Hello there! I’m Latifah, someone who loves art, creativity, and turning random ideas into something beautiful. I enjoy little things, learning new stuff, and finding beauty in unexpected places.',
+    secondaryBody: 'This new chapter of my life feels really exciting and special, and I can’t wait to make beautiful memories, grow together, and explore the world together.',
     cardImage: '/TLV.jpg',
-    profileSlides: ['/L.jpg', '/p8.jpeg', '/P14.jpg', '/P13.jpg'],
-    activityPhotos: ['/P1.JPG', '/p10.jpeg', '/p11.jpeg', '/p7.jpeg', '/P12.jpg', '/P15.jpg'],
+    profileSlides: ['/L.jpg', '/ltv2.JPG', '/ltv5.JPG', '/ltv4.JPG'],
+    activityPhotos: ['/AC1.JPG', '/AC2.jpeg', '/AC3.jpeg', '/AC4.JPG', '/AC5.JPG', '/AC6.JPG'],
   },
   {
     key: 'valen',
@@ -54,8 +54,8 @@ const couples: CoupleProfile[] = [
     introBody: 'Hello there! not much to say about me, I\'m just a normal guy who likes to have fun, sleep, eat and gaming.',
     secondaryBody: 'This new chapter of my life is going to be amazing, I\'m looking forward to it, and also still waiting for Manchester United to win the Champions League.',
     cardImage: '/LNV.jpg',
-    profileSlides: ['/V.jpg', '/P6.jpeg', '/p9.jpeg', '/vln.JPG'],
-    activityPhotos: ['/p3.JPG', '/p4.JPG', '/p5.jpeg', '/p8.jpeg', '/p10.jpeg', '/p11.jpeg'],
+    profileSlides: ['/V.jpg', '/vln3.JPG', '/vln4.JPG'],
+    activityPhotos: ['/PH3.JPG', '/vln3.JPG', '/vln5.JPG', '/PH88.JPG', '/vln6.JPG', '/vln7.JPG'],
   },
 ];
 
@@ -261,7 +261,7 @@ function CoupleModalContent({ couple, onClose }: { couple: CoupleProfile; onClos
         <div className="mt-5">
           <div className="mb-3 flex items-center gap-3">
             <div style={{ flex: 1, height: 1, background: 'linear-gradient(to right, transparent, rgba(184,160,120,0.5))' }} />
-            <span className="text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-[#8a7060]">Activities</span>
+            <span className="text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-[#8a7060]">Snapshots</span>
             <div style={{ flex: 1, height: 1, background: 'linear-gradient(to left, transparent, rgba(184,160,120,0.5))' }} />
           </div>
           <div className="grid grid-cols-3 gap-2">
