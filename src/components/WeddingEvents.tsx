@@ -51,9 +51,9 @@ const events: Event[] = [
 
 const timeline = [
   { time: '12:35', event: 'Seserahan', icon: '', desc: 'Exchange of gifts' },
-  { time: '14:20', event: 'Tepuk Tepung Tawar', icon: '', desc: 'Marriage Blessing' },
+  { time: '13:40', event: 'Tepuk Tepung Tawar', icon: '', desc: 'Marriage Blessing' },
   { time: '15:50', event: 'Opening Resepsi dan Tarian Pembuka', icon: '', desc: 'Reception begins' },
-  { time: '17:30', event: 'Closing', icon: '', desc: 'Thank you & farewell' },
+  { time: '17:35', event: 'Closing', icon: '', desc: 'Thank you & farewell' },
 ];
 
 // ── Animated Saturday letters ──────────────────────────────────────────────
