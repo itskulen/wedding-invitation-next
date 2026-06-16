@@ -296,7 +296,7 @@ export default function Details() {
               <div style={{ flex: 1, height: 1, background: 'linear-gradient(to left, transparent, rgba(184,160,120,0.35))' }} />
             </div>
             <p style={{ fontSize: '0.62rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8a7060' }}>
-              Saturday · 4th July 2026 · 14:00 WIB
+              Saturday · 4th July 2026 · 15:50 WIB
             </p>
           </motion.div>
 
