@@ -38,8 +38,8 @@ const couples: CoupleProfile[] = [
     introBody: 'Hello there! I’m Latifah, someone who loves art, creativity, and turning random ideas into something beautiful. I enjoy little things, learning new stuff, and finding beauty in unexpected places.',
     secondaryBody: 'This new chapter of my life feels really exciting and special, and I can’t wait to make beautiful memories, grow together, and explore the world together.',
     cardImage: '/TLV.jpg',
-    profileSlides: ['/L.jpg', '/ltv2.JPG', '/ltv5.JPG', '/ltv4.JPG'],
-    activityPhotos: ['/AC1.JPG', '/TLV.JPG', '/L.JPG', '/AC4.JPG', '/AC5.JPG', '/AC6.JPG'],
+    profileSlides: ['/L.jpg', '/ltv2.jpg', '/ltv5.jpg', '/ltv4.jpg'],
+    activityPhotos: ['/AC1.jpg', '/TLV.jpg', '/L.jpg', '/AC4.jpg', '/AC5.jpg', '/AC6.jpg'],
   },
   {
     key: 'valen',
@@ -54,8 +54,8 @@ const couples: CoupleProfile[] = [
     introBody: 'Hello there! not much to say about me, I\'m just a normal guy who likes to have fun, sleep, eat and gaming.',
     secondaryBody: 'This new chapter of my life is going to be amazing, I\'m looking forward to it, and also still waiting for Manchester United to win the Champions League.',
     cardImage: '/LNV.jpg',
-    profileSlides: ['/V.jpg', '/vln3.JPG', '/vln4.JPG'],
-    activityPhotos: ['/PH3.JPG', '/vln3.JPG', '/vln5.JPG', '/PH88.JPG', '/vln6.JPG', '/vln7.JPG'],
+    profileSlides: ['/V.jpg', '/vln3.jpg', '/vln4.jpg'],
+    activityPhotos: ['/PH3.jpg', '/vln3.jpg', '/vln5.jpg', '/PH88.jpg', '/vln6.jpg', '/vln7.jpg'],
   },
 ];
 
