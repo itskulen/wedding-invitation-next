@@ -55,7 +55,7 @@
         >
           <div className="relative h-[600px] sm:h-[680px] w-full">
             <Image
-              src="/cvr.jpg"
+              src="/bgnd1.jpeg"
               alt="Closing wedding portrait"
               fill
               priority={false}
