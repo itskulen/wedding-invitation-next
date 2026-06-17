@@ -24,7 +24,7 @@ const journeyImages = [
     src: '/PH87.jpg',
     desc: 'Chapter III',
     subtitle: 'Finding Home',
-    caption: 'From simple conversations to wounds slowly spoken aloud, without realizing it, we became each other&apos;s place to return to. Two hearts that finally held one another up. We walked forward without grand promises, only companionship and quiet healing. No longer about ambition, but like a gentle prayer, full of hope.',
+    caption: 'From simple conversations to wounds slowly spoken aloud, without realizing it, we became each others place to return to. Two hearts that finally held one another up. We walked forward without grand promises, only companionship and quiet healing. No longer about ambition, but like a gentle prayer, full of hope.',
   },
   {
     src: '/PH23.jpg',

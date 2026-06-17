@@ -6,7 +6,7 @@ import { AudioProvider } from '@/contexts/AudioContext';
 
 export const metadata: Metadata = {
   title: "Latifah & Valen | Wedding Invitation",
-  description: "Interactive wedding invitation for Latifah and Valen",
+  description: "Latifah & Valen | Wedding Invitation, 4 July 2025"
 };
 
 export default function RootLayout({

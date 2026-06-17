@@ -50,7 +50,6 @@ function Lightbox({
   const moment = moments[index];
   const total = moments.length;
 
-  // Keyboard navigation
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') onNext();
@@ -63,7 +62,7 @@ function Lightbox({
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-[580px] border-none bg-transparent p-0 shadow-none data-open:zoom-in-95 data-open:fade-in-0 data-closed:zoom-out-95 data-closed:fade-out-0">
+      <DialogContent className="max-w-[580px] border-none bg-transparent p-0 shadow-none [&>button]:hidden">
         <motion.div
           initial={{ opacity: 0, y: 14, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -71,6 +70,15 @@ function Lightbox({
           className="relative overflow-hidden rounded-3xl border border-[rgba(184,160,120,0.3)] shadow-[0_32px_80px_rgba(40,25,15,0.3)]"
           style={{ background: 'linear-gradient(160deg, #faf6f0 0%, #f5ede0 45%, #ede3d4 100%)' }}
         >
+          {/* ── Custom Close Button ── */}
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="absolute top-3 right-3 z-50 inline-flex items-center justify-center w-8 h-8 rounded-full border border-[rgba(184,160,120,0.4)] bg-white/80 text-[#4A3E35] transition-all duration-200 hover:bg-white hover:shadow-md"
+          >
+            <X size={15} />
+          </button>
+
           {/* ── Botanical corner decorations ── */}
           <div className="pointer-events-none absolute left-0 top-0" style={{ width: 110, opacity: 0.16, transform: 'scaleX(-1)', zIndex: 0 }} aria-hidden>
             <img src="/bung6.png" alt="" className="w-full object-contain" style={{ mixBlendMode: 'multiply' }} />
@@ -233,13 +241,6 @@ export default function BestMoments() {
               <div style={{ flex: 1, height: 1, background: 'linear-gradient(to left, transparent, rgba(184,160,120,0.6))' }} />
             </div>
 
-            {/* Video placeholder — ready for future */}
-            {/* Uncomment and replace src when you have a video:
-            <div className="mb-5 overflow-hidden rounded-2xl border border-[rgba(184,160,120,0.25)] shadow-[0_8px_24px_rgba(60,35,20,0.1)]">
-              <video src="/highlight.mp4" autoPlay muted loop playsInline className="w-full object-cover" style={{ maxHeight: 280 }} />
-            </div>
-            */}
-
             {/* Gallery Grid */}
             <div className="grid grid-cols-2 gap-2.5 auto-rows-[140px] md:grid-cols-3 md:auto-rows-[160px]">
               {moments.map((moment, index) => (
@@ -249,7 +250,7 @@ export default function BestMoments() {
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{
                     duration: 0.55,
-                    delay: Math.min(index * 0.06, 0.5), // cap at 0.5s max delay
+                    delay: Math.min(index * 0.06, 0.5),
                     type: 'spring',
                     stiffness: 130,
                   }}
@@ -262,30 +263,19 @@ export default function BestMoments() {
                     moment.size === 'tall' ? 'row-span-2' : ''
                   }`}
                 >
-                  {/* Image */}
                   <img
                     src={moment.src}
                     alt={moment.caption || `Moment ${index + 1}`}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
                     loading="lazy"
                   />
-
-                  {/* Gradient overlay — only darkens on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
-
-                  {/* Caption — slides up on hover */}
-                  <motion.div
-                    className="absolute inset-x-0 bottom-0 px-3 py-2.5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
-                  >
+                  <motion.div className="absolute inset-x-0 bottom-0 px-3 py-2.5 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                     <p className="text-[0.68rem] font-medium tracking-wide text-white/95 text-center">
                       {moment.caption}
                     </p>
                   </motion.div>
-
-                  {/* Subtle always-visible bottom fade for depth */}
                   <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/25 to-transparent pointer-events-none" />
-
-                  {/* Corner index number — barely visible, shows on hover */}
                   <div className="absolute top-2 right-2 text-[0.6rem] font-semibold text-white/0 group-hover:text-white/50 transition-colors duration-300">
                     {index + 1}
                   </div>

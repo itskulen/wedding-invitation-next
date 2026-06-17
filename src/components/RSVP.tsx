@@ -22,15 +22,10 @@ export default function RSVP() {
     {
       id: '1',
       name: 'Ahmad Family',
-      message: 'Congratulations on your wedding! Wishing you a lifetime of love and happiness together.',
-      date: '2026-01-15',
+      message: 'Congratulations on your wedding Mas Valen! Wishing you a lifetime of love and happiness together.',
+      date: '2026-06-25',
     },
-    {
-      id: '2',
-      name: 'Siti & Family',
-      message: 'May your marriage be filled with all the right ingredients: a heap of love, a dash of humor, a touch of romance, and a spoonful of understanding.',
-      date: '2026-01-14',
-    },
+    
   ]);
   const [formData, setFormData] = useState({
     name: '',
