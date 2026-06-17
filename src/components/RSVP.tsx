@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import TypingText from './TypingText';
@@ -14,23 +14,12 @@ interface Wish {
   id: string;
   name: string;
   message: string;
-  date: string;
+  createdAt: string;
 }
 
 export default function RSVP() {
-  const [wishes, setWishes] = useState<Wish[]>([
-    {
-      id: '1',
-      name: 'Ahmad Family',
-      message: 'Congratulations on your wedding Mas Valen! Wishing you a lifetime of love and happiness together.',
-      date: '2026-06-25',
-    },
-    
-  ]);
-  const [formData, setFormData] = useState({
-    name: '',
-    message: '',
-  });
+  const [wishes, setWishes] = useState<Wish[]>([]);
+  const [formData, setFormData] = useState({ name: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState<'wishes' | 'attendance'>('wishes');
   const [attendanceData, setAttendanceData] = useState({
@@ -42,40 +31,53 @@ export default function RSVP() {
   const [attendanceSubmitted, setAttendanceSubmitted] = useState(false);
   const [attendanceError, setAttendanceError] = useState<string | null>(null);
 
+  // ── Load wishes from DB on mount ──────────────────────────────────────────
+  useEffect(() => {
+    fetch('/api/wishes')
+      .then((res) => res.json())
+      .then((data: Wish[]) => setWishes(data))
+      .catch(() => {});
+  }, []);
+
+  // ── Submit wish to DB ─────────────────────────────────────────────────────
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.message.trim()) return;
 
     setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      const newWish: Wish = {
-        id: Date.now().toString(),
-        name: formData.name,
-        message: formData.message,
-        date: new Date().toISOString().split('T')[0],
-      };
-      
-      setWishes([newWish, ...wishes]);
-      setFormData({ name: '', message: '' });
+
+    try {
+      const res = await fetch('/api/wishes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          message: formData.message.trim(),
+        }),
+      });
+
+      if (res.ok) {
+        const newWish: Wish = await res.json();
+        setWishes((prev) => [newWish, ...prev]);
+        setFormData({ name: '', message: '' });
+      }
+    } catch {
+      // silently fail
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAttendanceInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setAttendanceData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setAttendanceData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAttendanceSubmit = async (e: React.FormEvent) => {
@@ -103,11 +105,7 @@ export default function RSVP() {
       });
 
       if (res.ok) {
-        setAttendanceData({
-          name: '',
-          address: '',
-          status: 'attend',
-        });
+        setAttendanceData({ name: '', address: '', status: 'attend' });
         setAttendanceSubmitted(true);
         window.setTimeout(() => setAttendanceSubmitted(false), 4000);
         return;
@@ -124,11 +122,7 @@ export default function RSVP() {
         };
         const prev = loadAttendanceConfirmations();
         saveAttendanceConfirmations([newConfirmation, ...prev]);
-        setAttendanceData({
-          name: '',
-          address: '',
-          status: 'attend',
-        });
+        setAttendanceData({ name: '', address: '', status: 'attend' });
         setAttendanceSubmitted(true);
         window.setTimeout(() => setAttendanceSubmitted(false), 4000);
         setAttendanceError('Saved locally (database not configured on server).');
@@ -145,15 +139,10 @@ export default function RSVP() {
     }
   };
 
-  // Deterministic date formatting (avoid timezone/locale differences between
-  // server-rendered HTML and client hydration).
   const formatWishDate = (dateStr: string) => {
-    const parts = dateStr.split('-').map((p) => Number(p));
-    const [y, m, d] = parts;
-    if (!y || !m || !d) return dateStr;
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-    const monthLabel = months[m - 1] ?? '';
-    return `${d} ${monthLabel} ${y}`;
+    const date = new Date(dateStr);
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
   };
 
   return (
@@ -257,7 +246,7 @@ export default function RSVP() {
                   >
                     <div className="flex justify-between gap-3 font-bold">
                       <span>{wish.name}</span>
-                      <span className="text-[#c89968] text-sm">{formatWishDate(wish.date)}</span>
+                      <span className="text-[#c89968] text-sm">{formatWishDate(wish.createdAt)}</span>
                     </div>
                     <p className="mt-1 text-[#d4a574]">{wish.message}</p>
                   </motion.div>

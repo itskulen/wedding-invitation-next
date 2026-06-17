@@ -21,3 +21,13 @@ model Attendance {
   @@index([createdAt])
   @@map("attendances")
 }
+/// Guest wishes/messages (stored in MySQL when DATABASE_URL is set).
+model Wish {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(191)
+  message   String   @db.VarChar(1000)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("wishes")
+}
