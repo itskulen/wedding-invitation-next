@@ -38,8 +38,8 @@ const couples: CoupleProfile[] = [
     introBody: 'Hello there! I’m Latifah, someone who loves art, creativity, and turning random ideas into something beautiful. I enjoy little things, learning new stuff, and finding beauty in unexpected places.',
     secondaryBody: 'This new chapter of my life feels really exciting and special, and I can’t wait to make beautiful memories, grow together, and explore the world together.',
     cardImage: '/TLV.jpg',
-    profileSlides: ['/L.jpg', '/ltv2.jpg', '/ltv5.jpg', '/ltv4.jpg'],
-    activityPhotos: ['/AC1.jpg', '/TLV.jpg', '/L.jpg', '/AC4.jpg', '/AC5.jpg', '/AC6.jpg'],
+    profileSlides: ['/L.jpg', '/latifa1.jpeg', '/latifa2.jpeg', '/latifa3.jpeg'],
+    activityPhotos: ['/AC1.jpg', '/TLV.jpg', '/L.jpg', '/latifa1.jpeg', '/latifa2.jpeg', '/latifa3.jpeg'],
   },
   {
     key: 'valen',
