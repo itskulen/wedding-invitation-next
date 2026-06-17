@@ -12,31 +12,31 @@ const journeyImages = [
     src: '/PH1.jpg',
     desc: 'Chapter I',
     subtitle: 'The Beginning',
-    caption: 'Tidak ada yang kebetulan, Yang Maha Kuasa telah lebih dulu merangkai takdir terbaik untuk kami.',
+    caption: 'Nothing happens by chance, the Almighty has already woven the most beautiful destiny for us.',
   },
   {
     src: '/PH11.jpg',
     desc: 'Chapter II',
     subtitle: 'Two Paths Crossed',
-    caption: 'Kami dua orang asing dari arah yang berbeda, dipertemukan di sebuah kota. Membawa masa lalu yang tak sama, namun rasa yang serupa. Kami tidak saling mencari, namun takdir diam diam menemukan jalannya sendiri.',
+    caption: 'We were two strangers walking from different directions, brought together in the same city. Carrying different pasts, yet feeling the same pull. We were not looking for each other, yet destiny quietly found its own way.',
   },
   {
     src: '/PH87.jpg',
     desc: 'Chapter III',
     subtitle: 'Finding Home',
-    caption: 'Dari obrolan sederhana hingga luka yang perlahan terucap, tanpa disadari kami menjadi tempat untuk pulang. Dua hati akhirnya saling menguatkan. Kami berjalan tanpa janji berlebihan, hanya saling menemani dan menyembuhkan. Bukan lagi tentang ambisi, melainkan seperti doa yang tenang dan penuh harap.',
+    caption: 'From simple conversations to wounds slowly spoken aloud, without realizing it, we became each other&apos;s place to return to. Two hearts that finally held one another up. We walked forward without grand promises, only companionship and quiet healing. No longer about ambition, but like a gentle prayer, full of hope.',
   },
   {
     src: '/PH23.jpg',
     desc: 'Chapter IV',
     subtitle: 'Growing Together',
-    caption: 'Kini kami mengerti, cinta hadir perlahan, merangkai kembali yang pernah patah. Pertemuan ini bukan tentang siapa yang datang lebih dulu, melainkan tentang siapa yang tetap menggenggam erat hingga jiwa merasa utuh.',
+    caption: 'We understand now, love arrives slowly, piecing back together what was once broken. This meeting was never about who came first, but about who chose to hold on tightly until the soul felt whole again.',
   },
   {
     src: '/LTVVLN.jpg',
     desc: 'Chapter V',
     subtitle: 'Sacred Promise',
-    caption: 'Dalam segala rapuh yang tersisa dan kesederhanaan yang penuh makna, kami memilih saling menggenggam, mengikat janji suci karena ingin saling menjaga, dalam doa yang tulus dan harapan akan ridha Nya.',
+    caption: "In all that remains fragile and in the simplicity that carries the deepest meaning, we choose to hold each other's hands binding a sacred vow not out of obligation, but out of a sincere wish to protect one another, in honest prayer and hope for His blessing.",
   },
 ];
 
