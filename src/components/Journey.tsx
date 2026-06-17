@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -53,6 +53,16 @@ export default function Journey() {
   const prevPopupChapter = () => { setPopupDirection(-1); prevSlide(); };
 
   const activeSlide = journeyImages[currentIndex];
+
+  useEffect(() => {
+    if (isPopupOpen) return;
+
+    const intervalId = window.setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % journeyImages.length);
+    }, 3000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isPopupOpen]);
 
   return (
     <>
