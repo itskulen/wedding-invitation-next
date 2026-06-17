@@ -54,8 +54,8 @@ const couples: CoupleProfile[] = [
     introBody: 'Hello there! not much to say about me, I\'m just a normal guy who likes to have fun, sleep, eat and gaming.',
     secondaryBody: 'This new chapter of my life is going to be amazing, I\'m looking forward to it, and also still waiting for Manchester United to win the Champions League.',
     cardImage: '/LNV.jpg',
-    profileSlides: ['/V.jpg', '/vln3.jpg', '/vln4.jpg'],
-    activityPhotos: ['/PH3.jpg', '/vln3.jpg', '/vln5.jpg', '/PH88.jpg', '/vln6.jpg', '/vln7.jpg'],
+    profileSlides: ['/V.jpg', '/valens1.jpeg', '/vln4.jpg'],
+    activityPhotos: ['/PH3.jpg', '/valens1.jpeg', '/vln5.jpg', '/PH88.jpg', '/vln6.jpg', '/vln7.jpg'],
   },
 ];
 
