@@ -3,10 +3,13 @@ import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import { AudioProvider } from '@/contexts/AudioContext';
 
-
 export const metadata: Metadata = {
   title: "Latifah & Valen | Wedding Invitation",
-  description: "Latifah & Valen | Wedding Invitation, 4 July 2025"
+  description: "Interactive wedding invitation for Latifah and Valen",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -15,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en">
+    <html lang="en">
       <body>
         <AudioProvider>
           {children}
