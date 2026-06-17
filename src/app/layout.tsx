@@ -6,11 +6,8 @@ import { AudioProvider } from '@/contexts/AudioContext';
 export const metadata: Metadata = {
   title: "Latifah & Valen | Wedding Invitation",
   description: "Interactive wedding invitation for Latifah and Valen",
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
-};
+
+  };
 
 export default function RootLayout({
   children,
